@@ -20,3 +20,6 @@ class Actuator(models.Model):
     max_effective_action_force_border_1 = models.IntegerField()
     max_effective_action_force_border_2 = models.IntegerField()
 
+
+class Data:
+    pass
