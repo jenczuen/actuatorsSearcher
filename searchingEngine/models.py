@@ -1,4 +1,6 @@
 import logging
+from lib2to3.fixer_util import Number
+
 from django.db import models
 from enum import Enum
 
@@ -57,8 +59,8 @@ class MotionProfile1:
     def from_request_data(request_data):
         result = MotionProfile1()
         result.type = MotionProfileType.acc_and_speed
-        result.v_max = request_data['motion_profile_params[v_max]']
-        result.acc = request_data['motion_profile_params[acc]']
+        result.v_max = Helper.parse_float(request_data['motion_profile_params[v_max]'])
+        result.acc = Helper.parse_float(request_data['motion_profile_params[acc]'])
         return result
 
     def log(self):
@@ -66,12 +68,13 @@ class MotionProfile1:
         logging.warning("v_max = %s" % self.v_max)
         logging.warning("acc = %s" % self.acc)
 
+
 class MotionProfile2:
     @staticmethod
     def from_request_data(request_data):
         result = MotionProfile2()
         result.type = MotionProfileType.total_time
-        result.t_total = request_data['motion_profile_params[t_total]']
+        result.t_total = Helper.parse_int(request_data['motion_profile_params[t_total]'])
         return result
 
     def log(self):
@@ -84,14 +87,14 @@ class MotionProfile3:
     def from_request_data(request_data):
         result = MotionProfile3()
         result.type = MotionProfileType.total_and_acc_time
-        result.t_total = request_data['motion_profile_params[t_total]']
-        result.t_acc_dcc = request_data['motion_profile_params[t_acc_dcc]']
+        result.t_total = Helper.parse_int(request_data['motion_profile_params[t_total]'])
+        result.t_acc_dcc = Helper.parse_int(request_data['motion_profile_params[t_acc_dcc]'])
         return result
 
     def log(self):
         logging.warning("type = %s" % self.type)
         logging.warning("t_total = %s" % self.t_total)
-        logging.warning("t_total = %s" % self.t_acc_dcc)
+        logging.warning("t_acc_dcc = %s" % self.t_acc_dcc)
 
 
 class MotionProfileFactory:
@@ -114,15 +117,15 @@ class InputData:
     def from_request_data(request_data):
         input_data = InputData()
 
-        input_data.step = request_data['step']
-        input_data.mass = request_data['mass']
+        input_data.step = Helper.parse_int(request_data['step'])
+        input_data.mass = Helper.parse_float(request_data['mass'])
 
         input_data.actuator_type = ActuatorType[request_data['actuator_type']]
         input_data.actuator_orientation = ActuatorOrientation[request_data['actuator_orientation']]
 
-        input_data.distance_of_mass_x = request_data['distance_of_mass_x']
-        input_data.distance_of_mass_y = request_data['distance_of_mass_y']
-        input_data.distance_of_mass_z = request_data['distance_of_mass_z']
+        input_data.distance_of_mass_x = Helper.parse_int(request_data['distance_of_mass_x'])
+        input_data.distance_of_mass_y = Helper.parse_int(request_data['distance_of_mass_y'])
+        input_data.distance_of_mass_z = Helper.parse_int(request_data['distance_of_mass_z'])
 
         input_data.motion_profile = MotionProfileFactory.from_request_data(request_data)
         return input_data
@@ -136,3 +139,19 @@ class InputData:
         logging.warning("distance_of_mass_y = %s" % self.distance_of_mass_y)
         logging.warning("distance_of_mass_z = %s" % self.distance_of_mass_z)
         self.motion_profile.log()
+
+
+class Helper:
+    @staticmethod
+    def parse_int(input_number):
+        if input_number == "":
+            return int(0)
+        else:
+            return int(input_number)
+
+    @staticmethod
+    def parse_float(input_number):
+        if input_number == "":
+            return float(0)
+        else:
+            return float(input_number)
