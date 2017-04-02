@@ -3,9 +3,6 @@
 $(function(){
 	setCurrentMotionProfile();
 	$("input[name=motion_profile]").on("click", setCurrentMotionProfile);
-
-	//$("#actuator_model_button").on("click", getActuators);
-
 	$("#actuator_model_form").submit(getActuators)
 });
 
@@ -17,8 +14,7 @@ var setCurrentMotionProfile = function() {
 
 	// show current
 	var motion_profile = $("input[name=motion_profile]:checked").val()
-	var current_params_id = "#" + motion_profile + "_parameters"
-	$(current_params_id).show()
+	getParamsDivForMotionProfile(motion_profile).show()
 };
 
 var getActuators = function(event) {
@@ -34,14 +30,21 @@ var getActuators = function(event) {
 }
 
 var getInputsAsObject = function() {
+	var motion_profile_name = $("input[name=motion_profile]:checked").val()
 	var result = {
-		'model': "data"
+		'actuator_type'        : $("input[name=actuator_type]:checked").val(),
+		'actuator_orientation' : $("input[name=actuator_orientation]:checked").val(),
+		'expected_step'        : $("#expected_step_input").val(),
+		'distance_of_mass_x'   : $("#distance_of_mass_x").val(),
+		'distance_of_mass_y'   : $("#distance_of_mass_y").val(),
+		'distance_of_mass_z'   : $("#distance_of_mass_z").val(),
+		'motion_profile'       : motion_profile_name,
+		'motion_profile_params': getParamsObjectForMotionProfile(motion_profile_name)
 	}
 	return result
 }
 
 var updateActuators = function(data) {
-	console.log(data)
 	var list_div = $("#actuators_list_div")
 	list_div.html('')
 
@@ -49,8 +52,19 @@ var updateActuators = function(data) {
 	$(data.actuators).each(function(key) {
 		var li = $('<li/>').appendTo(list_root);
 		var a = $('<a/>').text(data.actuators[key].name).appendTo(li);
-		console.log(a)
 	})
 }
 
+var getParamsDivForMotionProfile = function(motion_profile) {
+	return $("#" + motion_profile + "_parameters")
+}
 
+var getParamsObjectForMotionProfile = function(motion_profile) {
+	var motion_profile_params_div = getParamsDivForMotionProfile(motion_profile)
+	result = {}
+	var inputs = motion_profile_params_div.find("input")
+	inputs.each(function(key){
+		result[inputs[key].name] = inputs[key].value
+	}) 
+	return result
+}

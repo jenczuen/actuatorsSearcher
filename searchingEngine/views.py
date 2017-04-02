@@ -19,7 +19,7 @@ def index(request):
         'motion_profiles': [
             'acc_and_speed',
             'total_time',
-            'total_time_and_acc'
+            'total_and_acc_time'
         ],
         'actuators': Actuator.objects.all()
     }
@@ -27,9 +27,25 @@ def index(request):
 
 
 def filter_actuators(request):
-    model = request.GET
-    logging.warning(model['model'])
+    get_and_validate_model_from_request(request)
     result = {
         'actuators': Actuator.get_all_actuators_for_display()
     }
     return JsonResponse(result)
+
+
+def get_and_validate_model_from_request(request):
+    if not request.GET:
+        logging.error("no model provided")
+
+    model = request.GET
+    logging.warning(model['expected_step'])
+    logging.warning(model['actuator_type'])
+    logging.warning(model['actuator_orientation'])
+    logging.warning(model['distance_of_mass_y'])
+    logging.warning(model['distance_of_mass_x'])
+    logging.warning(model['distance_of_mass_z'])
+    logging.warning(model['motion_profile'])
+    logging.warning(model['motion_profile_params[t_total]'])
+    logging.warning(model['motion_profile_params[acc_dcc]'])
+
