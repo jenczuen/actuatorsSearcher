@@ -1,0 +1,9 @@
+{% if latest_question_list %}
+    <ul>
+    {% for a in actuators %}
+        <li><a href="/searchingEngine/{{ a.id }}/">{{ a.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
