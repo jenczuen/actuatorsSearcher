@@ -9,7 +9,6 @@ def index(request):
     logging.basicConfig()
     actuators = Actuator.objects.all()
     context = {
-        'title': 'Wyszukiwanie to nasza pasja',
         'actuator_types': [
             'karetka',
             'tloczysko',
@@ -28,3 +27,5 @@ def index(request):
         'actuators': actuators
     }
     return render(request, 'searchingEngine/index.html', context)
+
+
