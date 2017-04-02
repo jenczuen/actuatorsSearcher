@@ -20,6 +20,17 @@ class Actuator(models.Model):
     max_effective_action_force_border_1 = models.IntegerField()
     max_effective_action_force_border_2 = models.IntegerField()
 
+    @staticmethod
+    def get_all_actuators_for_display():
+        result = []
+        for a in Actuator.objects.all():
+            result.append({
+                'name': a.name
+            })
+        result.append({'name': 'dummy1'})
+        result.append({'name': 'dummy2'})
+        return result
+
 
 class Data:
     pass
