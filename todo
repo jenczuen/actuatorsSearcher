@@ -1,3 +1,16 @@
-1. przygotowac widok przy pomocy angualra
-2. przygotwac api pytonowe
-    - cokolwiek restowego
+Taski na 2 kwietnia 2017:
+1. Widok glowny ze wszystkim opcjami do wyszukiwania zgodnie ze specyfikacja
+2. Przygotowanie danych do drukowania widoku glownego
+3. Przygotowanie jsa, ktory po nacisnieciu na guzik wysle do serwera aktualny
+   stan wszystkich inputow, zwroci liste napedow, akutalizacja listy napedow
+4. Przygotowanie akcji w kontrolerze, ktora bedzie pobierala aktualny
+   stan modelu i na jego podstawie filtrowala liste dostepnych napedow,
+   zwraca liste w formie jsona
+
+
+Backlog
+1. przygotowac widok do wybierania z lista aktuatorow statycznie
+2. przygotowac akcje + typy do kazdego kroku
+3. wpisac logike akcji
+4. dodac jsy do blokowania strony podczas wypelniania
+5. przygotowac strony z grafika
