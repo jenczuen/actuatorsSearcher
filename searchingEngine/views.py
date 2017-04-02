@@ -8,7 +8,8 @@ logger = logging.getLogger(__name__)
 def index(request):
     logging.basicConfig()
     actuators = Actuator.objects.all()
-    logging.info("---------------------------- witam")
-    logging.info(actuators)
-    context = {'actuators': actuators}
+    context = {
+        'title' : 'Wyszukiwanie to nasza pasja',
+        'actuators': actuators
+    }
     return render(request, 'searchingEngine/index.html', context)
