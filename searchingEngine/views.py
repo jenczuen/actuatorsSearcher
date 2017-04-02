@@ -9,7 +9,22 @@ def index(request):
     logging.basicConfig()
     actuators = Actuator.objects.all()
     context = {
-        'title' : 'Wyszukiwanie to nasza pasja',
+        'title': 'Wyszukiwanie to nasza pasja',
+        'actuator_types': [
+            'karetka',
+            'tloczysko',
+            'pion'
+        ],
+        'actuator_orientations': [
+            'horizontal_top',
+            'horizontal_side',
+            'vertical'
+        ],
+        'motion_profiles': [
+            'acc_and_speed',
+            'total_time',
+            'total_time_and_acc'
+        ],
         'actuators': actuators
     }
     return render(request, 'searchingEngine/index.html', context)

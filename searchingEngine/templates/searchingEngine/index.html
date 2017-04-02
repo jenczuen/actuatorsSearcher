@@ -1,31 +1,48 @@
-<h1>{{ title }}</h1>
-
-wybor napedu (czekbox):
-    - karetka
-    - tloczysko
-    - pion
-
-wybor orientacji (czekbox):
-    - horizontal top
-    - horizontal side
-    - vertical
-
-skok (input field)
-masa (input field)
-Ix (input field)
-Iy (input field)
-Iz (input field)
-
-wybor profilu ruchu (czekbox):
-    - zadane predkosc i przyspieszenie
-    - zadany czas ruchu - ruch w trójkąt - przypspiesza/zwalnia do polowy
-    - t, tacc/dcc - ruch w rąb, zade przyspieszenie/zwolnienie i czas ze stala predkoscia
-
-w zaleznosci od wybranego profilu ruchu wyswietlane sa parametry jako inpout field
+<h2>{{ title }}</h2>
 
 
+<form>
+    <h3>Wybierz typ napedu</h3>
+    {% for actuator_type in actuator_types %}
+        <input type="radio" name="actuator_type" value="{{ actuator_type }}" checked>
+        {{ actuator_type }}<br>
+    {% endfor %}
 
+    <h3>Wybierz orientację</h3>
+    {% for actuator_orientation in actuator_orientations %}
+        <input type="radio" name="actuator_orientation" value="{{ actuator_orientation }}" checked>
+        {{ actuator_orientation }}<br>
+    {% endfor %}
 
+    <h3>Podaj skok</h3>
+    Skok: <input type="text" name="step" id="expected_step" maxlength="4" size="1"> mm <br>
+
+    <h3>Podaj odchylenia masy od środka ciężkości układu</h3>
+    Ix: <input type="text" name="distance_of_mass_x" id="distance_of_mass_x" maxlength="4" size="1"> mm <br>
+    Iy: <input type="text" name="distance_of_mass_y" id="distance_of_mass_y" maxlength="4" size="1"> mm <br>
+    Iz: <input type="text" name="distance_of_mass_z" id="distance_of_mass_z" maxlength="4" size="1"> mm <br>
+
+    <h3>Wybierz profil ruchu</h3>
+    {% for motion_profile in motion_profiles %}
+        <input type="radio" name="motion_profile" value="{{ motion_profile }}" checked>
+        {{ motion_profile }}<br>
+    {% endfor %}
+    <div id='acc_and_speed_parameters'>
+        v_max: <input type="text" name="v_max" id="acc_and_speed_parameters_v_max" maxlength="4" size="1"> m/s <br>
+        a: <input type="text" name="a" id="acc_and_speed_parameters_a" maxlength="4" size="1"> m/s^2 <br>
+    </div>
+    <div id='total_time_parameters'>
+        t_total: <input type="text" name="t_total" id="total_time_parameters_t_total" maxlength="4" size="1"> t <br>
+    </div>
+    <div id='total_time_and_acc_parameters'>
+        t_total: <input type="text" name="t_total" id="total_time_and_acc_parameters_t_total" maxlength="4" size="1"> t <br>
+        acc/dcc: <input type="text" name="acc_dcc" id="total_time_and_acc_parameters_acc_dcc" maxlength="4" size="1"> m/s^2 <br>
+    </div>
+
+    <button id="actuator_model_button" value="actuator_model_button" name="actuator_model_button">Filtruj napedy</button>
+</form>
+
+<h3>Napędy spełniające kryteria:</h3>
 {% if actuators %}
     <ul>
     {% for a in actuators %}
