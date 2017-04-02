@@ -46,7 +46,8 @@ var getInputsAsObject = function() {
 	var result = {
 		'actuator_type'        : $("input[name=actuator_type]:checked").val(),
 		'actuator_orientation' : $("input[name=actuator_orientation]:checked").val(),
-		'expected_step'        : $("#expected_step_input").val(),
+		'step'                 : $("#expected_step_input").val(),
+		'mass'                 : $("#expected_mass_input").val(),
 		'distance_of_mass_x'   : $("#distance_of_mass_x").val(),
 		'distance_of_mass_y'   : $("#distance_of_mass_y").val(),
 		'distance_of_mass_z'   : $("#distance_of_mass_z").val(),

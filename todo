@@ -4,12 +4,17 @@ Taski na 2 kwietnia 2017:
 2. Przygotowanie danych do drukowania widoku glownego - done
 3. Przygotowanie jsa, ktory po nacisnieciu na guzik wysle do serwera aktualny - done
    stan wszystkich inputow, zwroci liste napedow, akutalizacja listy napedow
-4. Przygotowanie akcji w kontrolerze, ktora bedzie pobierala aktualny - done wydumszka, jeszcze mapowanie parametrow!!!s
-   stan modelu i na jego podstawie filtrowala liste dostepnych napedow,
-   zwraca liste w formie jsona
+4. Przygotowanie akcji w kontrolerze, ktora bedzie pobierala aktualny - done
+   stan modelu i zwraca liste w formie jsona
+
+4.1 Przygotowanie klas mapujacych dane wejsciowe
 
 5. przytowanie jsona, ktory bedzie przelaczal obrazek w zalesci od polozenia - done
 
+6. deploy na heroku czy gdzies
+7. skrypt populujacy na heroku czy cos
+
+111. dodanie unitowjojojojoj
 
 Backlog
 1. przygotowac widok do wybierania z lista aktuatorow statycznie
