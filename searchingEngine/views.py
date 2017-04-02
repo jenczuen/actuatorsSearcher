@@ -1,15 +1,14 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
+import logging
+from django.shortcuts import render
+from .models import Actuator
+
+logger = logging.getLogger(__name__)
 
 
-class DataView1(APIView):
-    def get(self, request, *args, **kw):
-        result = {'a': 'b'}
-        return Response(result, status=status.HTTP_200_OK)
-
-
-class DataView2(APIView):
-    def get(self, request, *args, **kw):
-        result = {'jebac': 'biede'}
-        return Response(result, status=status.HTTP_200_OK)
+def index(request):
+    logging.basicConfig()
+    actuators = Actuator.objects.all()
+    logging.info("---------------------------- witam")
+    logging.info(actuators)
+    context = {'actuators': actuators}
+    return render(request, 'searchingEngine/index.html', context)
