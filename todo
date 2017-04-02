@@ -1,6 +1,6 @@
 Taski na 2 kwietnia 2017:
-1. Widok glowny ze wszystkim opcjami do wyszukiwania zgodnie ze specyfikacja
-1.1 przygotowanie jsa do pokazywania/chowania parametrow dla profilow ruchu
+1. Widok glowny ze wszystkim opcjami do wyszukiwania zgodnie ze specyfikacja - done
+1.1 przygotowanie jsa do pokazywania/chowania parametrow dla profilow ruchu - done
 2. Przygotowanie danych do drukowania widoku glownego
 3. Przygotowanie jsa, ktory po nacisnieciu na guzik wysle do serwera aktualny
    stan wszystkich inputow, zwroci liste napedow, akutalizacja listy napedow
