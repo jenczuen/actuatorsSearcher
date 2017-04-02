@@ -1,11 +1,13 @@
 import logging
 from django.shortcuts import render
 from django.http import JsonResponse
+from actuatorsSearcher.settings import STATIC_URL
 from .models import Actuator
 
 def index(request):
     logging.basicConfig()
     context = {
+        'static_url': STATIC_URL,
         'actuator_types': [
             'karetka',
             'tloczysko',

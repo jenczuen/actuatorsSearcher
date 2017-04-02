@@ -2,9 +2,21 @@
 // main function
 $(function(){
 	setCurrentMotionProfile();
+	showCurrentOrientationImage();
 	$("input[name=motion_profile]").on("click", setCurrentMotionProfile);
+	$("input[name=actuator_orientation]").on("click", showCurrentOrientationImage);
 	$("#actuator_model_form").submit(getActuators)
 });
+
+var showCurrentOrientationImage = function() {
+	var img_container = $("#actuator_orientation_img_div")
+	img_container.children().each(function(index) { 
+		$(this).hide()
+	})
+	var orientation = $("input[name=actuator_orientation]:checked").val()
+	var current_orientation_img = $("#actuator_orientation_img_" + orientation)
+	current_orientation_img.show()
+}
 
 var setCurrentMotionProfile = function() {
 	// hide all 

@@ -3,6 +3,7 @@
         {% load static %}
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script src="{% static 'js/main.js' %}" type="text/javascript"></script>
+        {{static_url}}
     </head>
     <body>
         <h2>Wyszukiwanie to nasza pasja</h2>
@@ -20,13 +21,30 @@
                 {{ actuator_orientation }}<br>
             {% endfor %}
 
+            <div id="actuator_orientation_img_div">
+                <img src="{% static 'img/horizontal_side.jpg' %}"
+                     id="actuator_orientation_img_horizontal_side"
+                     style='display:none'>
+
+                <img src="{% static 'img/horizontal_top.jpg' %}"
+                     id="actuator_orientation_img_horizontal_top"
+                     style='display:none'>
+
+                <img src="{% static 'img/vertical.jpg' %}"
+                     id="actuator_orientation_img_vertical"
+                     style='display:none'>
+            </div>
+
             <h3>Podaj skok</h3>
             Skok: <input type="text" name="step" id="expected_step_input" maxlength="4" size="1"> mm <br>
 
             <h3>Podaj odchylenia masy od środka ciężkości układu</h3>
-            Ix: <input type="text" value="0" name="distance_of_mass_x" id="distance_of_mass_x" maxlength="4" size="1"> mm <br>
-            Iy: <input type="text" name="distance_of_mass_y" id="distance_of_mass_y" maxlength="4" size="1"> mm <br>
-            Iz: <input type="text" name="distance_of_mass_z" id="distance_of_mass_z" maxlength="4" size="1"> mm <br>
+            Ix: <input type="text" value="0" name="distance_of_mass_x"
+                       id="distance_of_mass_x" maxlength="4" size="1"> mm <br>
+            Iy: <input type="text" name="distance_of_mass_y"
+                       id="distance_of_mass_y" maxlength="4" size="1"> mm <br>
+            Iz: <input type="text" name="distance_of_mass_z"
+                       id="distance_of_mass_z" maxlength="4" size="1"> mm <br>
 
             <h3>Wybierz profil ruchu</h3>
             {% for motion_profile in motion_profiles %}
@@ -36,19 +54,26 @@
 
             <div id='motion_profile_parameters'>
                 <div id='acc_and_speed_parameters' style='display:none'>
-                    v_max: <input type="text" name="v_max" id="acc_and_speed_parameters_v_max" maxlength="4" size="1"> m/s <br>
-                    a: <input type="text" name="a" id="acc_and_speed_parameters_a" maxlength="4" size="1"> m/s^2 <br>
+                    v_max: <input type="text" name="v_max"
+                                  id="acc_and_speed_parameters_v_max" maxlength="4" size="1"> m/s <br>
+
+                    a: <input type="text" name="a"
+                              id="acc_and_speed_parameters_a" maxlength="4" size="1"> m/s^2 <br>
                 </div>
                 <div id='total_time_parameters' style='display:none'>
-                    t_total: <input type="text" name="t_total" id="total_time_parameters_t_total" maxlength="4" size="1"> t <br>
+                    t_total: <input type="text" name="t_total"
+                                    id="total_time_parameters_t_total" maxlength="4" size="1"> t <br>
                 </div>
                 <div id='total_and_acc_time_parameters' style='display:none'>
-                    t_total: <input type="text" name="t_total" id="total_time_and_acc_parameters_t_total" maxlength="4" size="1"> t <br>
-                    acc/dcc: <input type="text" name="acc_dcc" id="total_time_and_acc_parameters_acc_dcc" maxlength="4" size="1"> m/s^2 <br>
+                    t_total: <input type="text" name="t_total"
+                                    id="total_time_and_acc_parameters_t_total" maxlength="4" size="1"> t <br>
+                    acc/dcc: <input type="text" name="acc_dcc" i
+                                    d="total_time_and_acc_parameters_acc_dcc" maxlength="4" size="1"> m/s^2 <br>
                 </div>
             </div>
 
-            <input type="submit" id="actuator_model_button" value="actuator_model_button" name="actuator_model_button">Filtruj napedy</button>
+            <input type="submit" id="actuator_model_button" value="actuator_model_button"
+                   name="actuator_model_button">Filtruj napedy</button>
         </form>
 
         <h3>Napędy spełniające kryteria:</h3>

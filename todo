@@ -2,11 +2,13 @@ Taski na 2 kwietnia 2017:
 1. Widok glowny ze wszystkim opcjami do wyszukiwania zgodnie ze specyfikacja - done
 1.1 przygotowanie jsa do pokazywania/chowania parametrow dla profilow ruchu - done
 2. Przygotowanie danych do drukowania widoku glownego - done
-3. Przygotowanie jsa, ktory po nacisnieciu na guzik wysle do serwera aktualny
+3. Przygotowanie jsa, ktory po nacisnieciu na guzik wysle do serwera aktualny - done
    stan wszystkich inputow, zwroci liste napedow, akutalizacja listy napedow
-4. Przygotowanie akcji w kontrolerze, ktora bedzie pobierala aktualny
+4. Przygotowanie akcji w kontrolerze, ktora bedzie pobierala aktualny - done wydumszka, jeszcze mapowanie parametrow!!!s
    stan modelu i na jego podstawie filtrowala liste dostepnych napedow,
    zwraca liste w formie jsona
+
+5. przytowanie jsona, ktory bedzie przelaczal obrazek w zalesci od polozenia - done
 
 
 Backlog
