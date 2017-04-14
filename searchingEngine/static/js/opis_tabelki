@@ -1,0 +1,71 @@
+KOMENTARZE DO TABELI
+
+- BHD   -  zakres sił w 3 przedziałach prędkości ( 0-1; 1-3; 3-99999 )
+- BV    -  zakres sił w 3 przedziałach predkości ( 0-1; 1-2; 2-5 )
+- B     -  brak siły Fy pominąć przy obliczeniach dla tego napędu. 
+- B     -  zakres sił w 3 przedziałach predkości ( 0-1; 1-2; 2-5 )
+- SB/ST - brak siły Fy pominąć w obliczeniach.
+
+
+
+*(Te uwagi tyczą się wszystkich napędów śrubowych)
+
+- SB/ST - moment na wejściu napędu obliczany na zasadzie proporcji, Fa/Fmax = M / Mmax , Fa - siła wyliczona efektywna
+Fmax- siła maxymalna dla tego napędu, M - szukany moment, Mmax- moment maxymalny kolumna CT
+- SB/ST - Jedna wartość siły Fa niezależnie od prędkości ani skoku, kolumna S.
+- HMRS  - moment na wejściu napędu obliczany na zasadzie proporcji, Fa/Fmax = M / Mmax , Fa - siła wyliczona efektywna
+Fmax- siła maxymalna dla tego napędu, M - szukany moment, Mmax- moment maxymalny kolumna CT
+- HMRS - Jedna wartość siły Fa niezależnie od prędkości ani skoku, kolumna S.
+
+
+
+- HMRS  - tabela zależności prędkość od skoku. Użytkownik na samym początku wybierając skok określa dla tego 
+napędu maksymalną dostępną prędkość, nie ma jednej wartości V max dla napędów śrubowych zależy ona od skoku.
+
+
+-HMRB - dodatkowo tabela zależności sił od skoku. użytkownik wpisując na początku skok kreśla maksymalną 
+siłę dla tego napędu, 
+
+-HMRB - siła w zależności od prędkości w kolumnach O-P-R
+
+
+-ETH- w pierwszym kroku użytkownik wybiera rodzaj napędu, po wybraniu tego napędu - ETH , 
+
+1. wpisuję skok napędu (porównanie z max stroke)
+
+2. rodzaj mocowania silnika, w lini lub równolegle ( inline or parallel ) w zależności od mocowania są różne maksymalne siłu
+   F inlie lub F parallel, po wybraniu rodzaju mocowania powinna pojawić się podpowiedź: "maksymalna sila wynosi:xxxx"
+
+3. wpisuje siłe nacisku siłownika porównujemy z kolumną F inline lub F parallel. Po wybraniu konkretnego napędu 
+podpowiada jakie jest Vmax i a max. 
+
+BEZ WPISYWANIA PROFILU RUCHU 
+
+W tych 3 krokach dobierany jest konkretny rozmiar napędu.potrzebny moment na wejściu wyliczany jak tak samo jak poprzednio
+dla napędów na śrubie czyli z proporcji  Fa / Fmax = M / M max.  
+
+
+Po przejsciu przez wszysktie kroki kalkulatora mamy wybrany wielkość i serie napędu, kod zamówieniowy jest częściowo uzupełniony
+i wygląda przykładowo tak:
+
+OSPE32-600X-00500-0A7000
+
+
+X to nieuzupełnione pole więc zostaję tylko jedna rzecz do uzupełnienia i po kalkulatorze jest wybrany caly kod zamówieniowy napędu 
+
+Kolejnym ostatnim krokiem jest dobranie przekłądni/silnika do wyżej wybranego napędu. 
+
+
+Na tym etapie po zebranych danych wejściowych potrzebujemy okreslić dwie zmienne:
+
+-dla napędów paskowych ( -b; -BHD; -BV; -HMRB)
+1.moment obrotowy na wałku 
+2.maksymalne obroty wałka na wejściu napędu, n [obr/s]
+
+n [obr/s] obliczamy na podstawie V z profila ruchu , n = V/Uzr ( Uzr - linear motion per one revolution drive shaft)  
+
+- dla napędów śrubowych ( -SB; -ST; -HMRS; -ETH)
+1. moment obrotowy. 
+2.maksymalne obroty wałka na wejściu napędu, n [obr/s]
+
+n [obr/s] obliczamy na podstawie V z profila ruchu , n = V/Uzr ( Uzr - linear motion per one revolution drive shaft) 

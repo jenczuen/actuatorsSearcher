@@ -31,14 +31,14 @@ def index(request):
 
 
 def filter_actuators(request):
-    get_and_validate_model_from_request(request)
+    get_validated_model_from_request(request)
     result = {
         'actuators': Actuator.get_all_actuators_for_display()
     }
     return JsonResponse(result)
 
 
-def get_and_validate_model_from_request(request):
+def get_validated_model_from_request(request):
     if not request.GET:
         logging.error("no model provided")
     input_data = InputData.from_request_data(request.GET)
