@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import MotionProfileType
+from searchingEngine.models import MotionProfileType
 
 
 class MotionProfileTypeTests(TestCase):

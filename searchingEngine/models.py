@@ -1,6 +1,4 @@
 import logging
-from lib2to3.fixer_util import Number
-
 from django.db import models
 from enum import Enum
 
@@ -37,11 +35,21 @@ class Actuator(models.Model):
 
 
 class InputData:
+    def __init__(self):
+        self.stroke = 0
+        self.mass = 0
+        self.actuator_type = None
+        self.actuator_orientation = None
+        self.distance_of_mass_x = 0
+        self.distance_of_mass_y = 0
+        self.distance_of_mass_z = 0
+        self.motion_profile = None
+
     @staticmethod
     def from_request_data(request_data):
         input_data = InputData()
 
-        input_data.step = Helper.parse_int(request_data['step'])
+        input_data.stroke = Helper.parse_int(request_data['step'])
         input_data.mass = Helper.parse_float(request_data['mass'])
 
         input_data.actuator_type = ActuatorType[request_data['actuator_type']]
@@ -73,6 +81,7 @@ class ActuatorType(Enum):
 
 class ActuatorOrientation(Enum):
     horizontal_top = 0
+    horizontal_bottom = 1
     horizontal_side = 1
     vertical = 2
 
@@ -99,10 +108,12 @@ class MotionProfileType(Enum):
 
 
 class MotionProfile1:
+    def __init__(self):
+        self.type = MotionProfileType.acc_and_speed
+
     @staticmethod
     def from_request_data(request_data):
         result = MotionProfile1()
-        result.type = MotionProfileType.acc_and_speed
         result.v_max = Helper.parse_float(request_data['motion_profile_params[v_max]'])
         result.acc = Helper.parse_float(request_data['motion_profile_params[acc]'])
         return result
@@ -114,10 +125,12 @@ class MotionProfile1:
 
 
 class MotionProfile2:
+    def __init__(self):
+        self.type = MotionProfileType.total_time
+
     @staticmethod
     def from_request_data(request_data):
         result = MotionProfile2()
-        result.type = MotionProfileType.total_time
         result.t_total = Helper.parse_int(request_data['motion_profile_params[t_total]'])
         return result
 
@@ -127,10 +140,12 @@ class MotionProfile2:
 
 
 class MotionProfile3:
+    def __init__(self):
+        self.type = MotionProfileType.total_and_acc_time
+
     @staticmethod
     def from_request_data(request_data):
         result = MotionProfile3()
-        result.type = MotionProfileType.total_and_acc_time
         result.t_total = Helper.parse_int(request_data['motion_profile_params[t_total]'])
         result.t_acc_dcc = Helper.parse_int(request_data['motion_profile_params[t_acc_dcc]'])
         return result
