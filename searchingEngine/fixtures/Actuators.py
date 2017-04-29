@@ -9,7 +9,7 @@ Actuator(
     max_applied_load_Fz=850,
     max_moment_Mx=16,
     max_moment_My=80,
-    max_moment_Mz=32,
+    max_moment_Mz=9.6,
     max_stroke_mm=5000,
     max_speed=5,
     max_acc=10,

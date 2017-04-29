@@ -67,13 +67,13 @@ class AccAndSpeedCalculator:
     @staticmethod
     def calculate_for_type_2(input_data):
         t = input_data.motion_profile.t_total / 2
-        a_max = input_data.motion_profile.input_data.stroke / (t * t)
+        a_max = input_data.stroke / (t * t)
         V_max = a_max * input_data.motion_profile.t_total / 2
         return a_max, V_max
 
     @staticmethod
     def calculate_for_type_3(input_data):
-        V_max = 2 * input_data.motion_profile.stroke / \
+        V_max = 2 * input_data.stroke / \
                 (input_data.motion_profile.t_total - input_data.motion_profile.t_acc_dcc)
         a_max = V_max / input_data.motion_profile.t_acc_dcc
         return a_max, V_max
