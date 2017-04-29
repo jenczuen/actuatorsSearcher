@@ -48,7 +48,7 @@ class ActuatorTests():
             m_carriage = self.data['m_carriage'],
             M_0 = self.data['M_0']
         )
-        return mp.check()
+        return mp.calculate_torgue()
 
 a = ActuatorTests()
 a.setUp()
