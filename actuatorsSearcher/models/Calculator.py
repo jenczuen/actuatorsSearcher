@@ -12,12 +12,12 @@ class Calculator:
 
     def set_input_data(self, input_data):
         self.input_data = input_data
-        self.validator.validateColumnA(input_data.step)
+        self.validator.validate_max_stroke(input_data.step)
 
     def calculate_torque(self):
         a_max, V_max = AccAndSpeedCalculator.calculate(self.input_data)
-        self.validator.validateColumnJ(V_max)
-        self.validator.validateColumnK(a_max)
+        self.validator.validate_Vmax(V_max)
+        self.validator.validate_a(a_max)
 
         F_a, F = self._calculate_forces(a_max)
         return self._calculate_torque(F, F_a, V_max)
@@ -34,17 +34,11 @@ class Calculator:
             return F_a, F_a + F_0 + self.g * m_total
 
     def _calculate_torque(self, F, F_a, V_max):
-        if V_max <= 1:
-            self.validator.validateColumnG(F)
-        elif V_max <= 3:
-            self.validator.validateColumnH(F)
-        else:
-            self.validator.validateColumnI(F)
-
-        self.validator.validateColumnE(self.input_data.I_y * F_a) # M_z
+        self.validator.validate_Fa(F_a, V_max)
+        self.validator.validate_Mz(self.input_data.I_y * F_a) # M_z
 
         if self.input_data.I_z > 0:
-            self.validator.validateColumnF(self.input_data.I_z * F_a) # M_y
+            self.validator.validate_My(self.input_data.I_z * F_a) # M_y
 
         r = self.actuator.circ / (2*pi)
         return F * r
