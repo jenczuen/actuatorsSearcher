@@ -1,10 +1,10 @@
 from django.test import TestCase
+
 from searchingEngine.models import Actuator
-from searchingEngine.models import InputData
 from searchingEngine.models import ActuatorOrientation
-from searchingEngine.models import MotionProfile1
+from searchingEngine.models import InputData
 from searchingEngine.models import MotionProfile2
-from actuatorsSearcher.models.Calculator import Calculator
+from searchingEngine.validation.Calculator import Calculator
 
 
 class ActuatorTests(TestCase):
