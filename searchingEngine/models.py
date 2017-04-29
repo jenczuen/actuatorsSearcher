@@ -36,6 +36,35 @@ class Actuator(models.Model):
         return result
 
 
+class InputData:
+    @staticmethod
+    def from_request_data(request_data):
+        input_data = InputData()
+
+        input_data.step = Helper.parse_int(request_data['step'])
+        input_data.mass = Helper.parse_float(request_data['mass'])
+
+        input_data.actuator_type = ActuatorType[request_data['actuator_type']]
+        input_data.actuator_orientation = ActuatorOrientation[request_data['actuator_orientation']]
+
+        input_data.distance_of_mass_x = Helper.parse_int(request_data['distance_of_mass_x'])
+        input_data.distance_of_mass_y = Helper.parse_int(request_data['distance_of_mass_y'])
+        input_data.distance_of_mass_z = Helper.parse_int(request_data['distance_of_mass_z'])
+
+        input_data.motion_profile = MotionProfileFactory.from_request_data(request_data)
+        return input_data
+
+    def log(self):
+        logging.warning("step = %s" % self.step)
+        logging.warning("mass = %s" % self.mass)
+        logging.warning("actuator_type = %s" % self.actuator_type)
+        logging.warning("actuator_orientation = %s" % self.actuator_orientation)
+        logging.warning("distance_of_mass_x = %s" % self.distance_of_mass_x)
+        logging.warning("distance_of_mass_y = %s" % self.distance_of_mass_y)
+        logging.warning("distance_of_mass_z = %s" % self.distance_of_mass_z)
+        self.motion_profile.log()
+
+
 class ActuatorType(Enum):
     carriage = 0
     piston_rod = 1
@@ -46,6 +75,21 @@ class ActuatorOrientation(Enum):
     horizontal_top = 0
     horizontal_side = 1
     vertical = 2
+
+
+class MotionProfileFactory:
+    @staticmethod
+    def from_request_data(request_data):
+        motion_profile_type = MotionProfileType[request_data['motion_profile']]
+
+        if motion_profile_type is MotionProfileType.acc_and_speed:
+            return MotionProfile1.from_request_data(request_data)
+
+        if motion_profile_type is MotionProfileType.total_time:
+            return MotionProfile2.from_request_data(request_data)
+
+        if motion_profile_type is MotionProfileType.total_and_acc_time:
+            return MotionProfile3.from_request_data(request_data)
 
 
 class MotionProfileType(Enum):
@@ -95,50 +139,6 @@ class MotionProfile3:
         logging.warning("type = %s" % self.type)
         logging.warning("t_total = %s" % self.t_total)
         logging.warning("t_acc_dcc = %s" % self.t_acc_dcc)
-
-
-class MotionProfileFactory:
-    @staticmethod
-    def from_request_data(request_data):
-        motion_profile_type = MotionProfileType[request_data['motion_profile']]
-
-        if motion_profile_type is MotionProfileType.acc_and_speed:
-            return MotionProfile1.from_request_data(request_data)
-
-        if motion_profile_type is MotionProfileType.total_time:
-            return MotionProfile2.from_request_data(request_data)
-
-        if motion_profile_type is MotionProfileType.total_and_acc_time:
-            return MotionProfile3.from_request_data(request_data)
-
-
-class InputData:
-    @staticmethod
-    def from_request_data(request_data):
-        input_data = InputData()
-
-        input_data.step = Helper.parse_int(request_data['step'])
-        input_data.mass = Helper.parse_float(request_data['mass'])
-
-        input_data.actuator_type = ActuatorType[request_data['actuator_type']]
-        input_data.actuator_orientation = ActuatorOrientation[request_data['actuator_orientation']]
-
-        input_data.distance_of_mass_x = Helper.parse_int(request_data['distance_of_mass_x'])
-        input_data.distance_of_mass_y = Helper.parse_int(request_data['distance_of_mass_y'])
-        input_data.distance_of_mass_z = Helper.parse_int(request_data['distance_of_mass_z'])
-
-        input_data.motion_profile = MotionProfileFactory.from_request_data(request_data)
-        return input_data
-
-    def log(self):
-        logging.warning("step = %s" % self.step)
-        logging.warning("mass = %s" % self.mass)
-        logging.warning("actuator_type = %s" % self.actuator_type)
-        logging.warning("actuator_orientation = %s" % self.actuator_orientation)
-        logging.warning("distance_of_mass_x = %s" % self.distance_of_mass_x)
-        logging.warning("distance_of_mass_y = %s" % self.distance_of_mass_y)
-        logging.warning("distance_of_mass_z = %s" % self.distance_of_mass_z)
-        self.motion_profile.log()
 
 
 class Helper:

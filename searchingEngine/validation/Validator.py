@@ -13,6 +13,10 @@ class Validator:
         self.actuator = actuator
         self.log_list = []
 
+    def validateColumnA(self, value):
+        if self.actuator.column < value:
+            self.log_list.append("actuator.column < value")
+
     def validateColumnG(self, value):
         if self.actuator.column < value:
             self.log_list.append("actuator.column < value")
