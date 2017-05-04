@@ -12,7 +12,7 @@ class Calculator:
         self.validator.validate_max_stroke(input_data.stroke)
         self.g = 9.807
 
-    def calculate_torque(self):
+    def calculate_result(self):
         """
         input_data.actuator_type ????????????
         """
@@ -22,7 +22,12 @@ class Calculator:
         self.validator.validate_a(a_max)
 
         F_a, F = self._calculate_forces(a_max)
-        return self._calculate_torque(F, F_a, V_max)
+        return SingleResult(
+            torque=self._calculate_torque(F, F_a, V_max),
+            sum_of_combined_load=0,
+            torque_load=0,
+            errors=self.validator.log_list
+        )
 
     def _calculate_forces(self, a):
         m_total = self.input_data.mass + self.actuator.carriage_mass
@@ -77,3 +82,14 @@ class AccAndSpeedCalculator:
                 (input_data.motion_profile.t_total - input_data.motion_profile.t_acc_dcc)
         a_max = V_max / input_data.motion_profile.t_acc_dcc
         return a_max, V_max
+
+
+class SingleResult:
+    def __init__(self, torque, sum_of_combined_load, torque_load, errors=None):
+        self.torque = torque
+        self.sum_of_combined_load = sum_of_combined_load
+        self.torque_load = torque_load
+        self.errors = errors
+
+    def passed_validation(self):
+        return self.errors is None or len(self.errors) == 0
