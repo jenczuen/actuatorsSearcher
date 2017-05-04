@@ -1,55 +1,47 @@
 from django.test import TestCase
 
+from searchingEngine.tests.TestScenarios import TestsScenarios
 from searchingEngine.models import Actuator
-from searchingEngine.models import ActuatorOrientation
-from searchingEngine.models import InputData
-from searchingEngine.models import MotionProfile2
 from searchingEngine.validation.Calculator import Calculator
+from searchingEngine.management.utlis.ModelsLoader import ModelsLoader
+import os
 
 
 class ActuatorTests(TestCase):
 
+    path_to_fixtures = "../fixtures/actuators_fixtures.csv"
+
     def setUp(self):
-        self.input_data = InputData()
-        self.input_data.stroke = 3.000
-        self.input_data.mass = 5
+        filename = os.path.join(os.path.dirname(__file__), ActuatorTests.path_to_fixtures)
+        ModelsLoader.save_actuators_from_file(filename, lambda msg: print(msg))
 
-        self.input_data.distance_of_mass_x = 0.020
-        self.input_data.distance_of_mass_y = 0.150
-        self.input_data.distance_of_mass_z = 0.050
+    def test_scenario(self):
+        self.perform_test_for_scenario("Scenario1")
 
-        self.input_data.actuator_orientation = ActuatorOrientation.horizontal_top
-        self.input_data.motion_profile = MotionProfile2()
-        self.input_data.motion_profile.t_total = 1.5
+    def perform_test_for_scenario(self, scenario_name):
+        scenario = TestsScenarios.items[scenario_name]
+        print(scenario.get_desc())
 
-        self.actuator = Actuator(
-            name="ospe-50-b",
-            carriage_mass=1,
-            no_load_torque=0.6,
-            pulley_circumference_mm=100,
-            max_applied_load_Fy=0,
-            max_applied_load_Fz=850,
-            max_moment_Mx=16,
-            max_moment_My=80,
-            max_moment_Mz=9.6,
-            max_stroke_mm=5000,
-            max_speed=5,
-            max_acc=10,
-            max_effective_action_force_1=425,
-            max_effective_action_force_2=375,
-            max_effective_action_force_3=300,
-            max_effective_action_force_border_1=1,
-            max_effective_action_force_border_2=2
-        )
+        for actuator in Actuator.objects.all():
+            result = Calculator(actuator, scenario.input_data).calculate_result()
+            if result.passed_validation():
+                self.assert_valid_actuator(actuator, result, scenario)
+            else:
+                self.assert_invalid_actuator(actuator, result, scenario)
 
-        self.expected_M = 1.929 #M = 2.385, 7%
+    def assert_valid_actuator(self, actuator, result, scenario):
+        if actuator.name in scenario.results_dictionary:
+            # expected_result = scenario.results_dictionary[]
+            # print("[OK] Actuator %s MUST pass validation and it does" % actuator.name)
+            pass
+        else:
+            print("\n[BAD] Actuator %s MUST NOT pass validation but it DOES" % actuator.name)
 
-    def test_calculations(self):
-        calc = Calculator(self.actuator, self.input_data)
-        torque = calc.calculate_torque()
-
-        if len(calc.validator.log_list) > 0:
-            for log in calc.validator.log_list:
-                print(log)
-
-        print("calculated_M = %s\nexpected_M   = %s" % (torque, self.expected_M))
+    def assert_invalid_actuator(self, actuator, result, scenario):
+        if actuator.name in scenario.results_dictionary:
+            print("\n[BAD] Actuator %s MUST pass validation but it DOES NOT" % actuator.name)
+            for error in result.errors:
+                print("\t%s" % error)
+        else:
+            # print("[OK] Actuator %s MUST NOT pass validation and it does not" % actuator.name)
+            pass
