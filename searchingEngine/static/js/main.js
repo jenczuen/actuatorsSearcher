@@ -5,7 +5,8 @@ $(function(){
 	showCurrentOrientationImage();
 	$("input[name=motion_profile]").on("click", setCurrentMotionProfile);
 	$("input[name=actuator_orientation]").on("click", showCurrentOrientationImage);
-	$("#actuator_model_form").submit(getActuators)
+	$("#input_data_form").submit(getActuatorsForInputData)
+	$("#actuators_list_form").submit(getCodesFormsForActuators)
 });
 
 var showCurrentOrientationImage = function() {
@@ -29,21 +30,21 @@ var setCurrentMotionProfile = function() {
 	getParamsDivForMotionProfile(motion_profile).show()
 };
 
-var getActuators = function(event) {
+var getActuatorsForInputData = function(event) {
 	event.preventDefault();	
 	url = "/searchingEngine/ajax/get_actuators/"
 	console.log("request to " + url)
 	$.ajax({
 		url: url,
-		data: getInputsAsObject(),
+		data: fetchInputData(),
 		dataType: 'json',
 		success: updateActuators
 	});
 }
 
-var getInputsAsObject = function() {
+var fetchInputData = function() {
 	var motion_profile_name = $("input[name=motion_profile]:checked").val()
-	var result = {
+	var input_data = {
 		'actuator_type'        : $("input[name=actuator_type]:checked").val(),
 		'actuator_orientation' : $("input[name=actuator_orientation]:checked").val(),
 		'step'                 : $("#expected_step_input").val(),
@@ -54,7 +55,7 @@ var getInputsAsObject = function() {
 		'motion_profile'       : motion_profile_name,
 		'motion_profile_params': getParamsObjectForMotionProfile(motion_profile_name)
 	}
-	return result
+	return input_data
 }
 
 var updateActuators = function(data) {
@@ -63,9 +64,54 @@ var updateActuators = function(data) {
 
 	var list_root = $('<ul/>').appendTo(list_div);
 	$(data.actuators).each(function(key) {
+	    console.log(data.actuators[key])
 		var li = $('<li/>').appendTo(list_root);
-		var a = $('<a/>').text(data.actuators[key].name).appendTo(li);
+		var a = $('<div/>').text(data.actuators[key].name).appendTo(li);
+		var checkbox = $('<input />', {
+		    type: 'checkbox',
+		    id: 'checkbox_interested_' + data.actuators[key].id,
+		    value: data.actuators[key].id }).appendTo(li);
+		var label = $('<label />', {
+		    'for': 'checkbox_interested_' + data.actuators[key].id,
+		    text: 'Jestem zainteresowany' }).appendTo(li);
 	})
+
+	$("#actuators_list_button").show()
+}
+
+var getCodesFormsForActuators = function(event) {
+	event.preventDefault();
+	console.log("getCodesFormsForActuators called")
+	url = "/searchingEngine/ajax/get_codes/"
+	console.log("request to " + url)
+	$.ajax({
+		url: url,
+		data: fetchCheckedActuators(),
+		dataType: 'json',
+		success: setCodes
+	});
+}
+
+var fetchCheckedActuators = function() {
+    console.log("fetchCheckedActuators called")
+
+    data = {
+        'input_data': fetchInputData(),
+        'checked_actuators_ids': []
+    }
+
+    $("#actuators_list_div :checkbox:checked").each(function(){
+        var raw_id = $(this).attr('id')
+        var id = parseInt(raw_id.split("_")[2])
+        data['checked_actuators_ids'].push(id)
+    })
+
+    console.log(data)
+    return data
+}
+
+var setCodes = function(data) {
+    console.log(data)
 }
 
 var getParamsDivForMotionProfile = function(motion_profile) {

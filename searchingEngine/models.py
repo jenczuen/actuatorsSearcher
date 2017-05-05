@@ -4,6 +4,7 @@ from enum import Enum
 
 
 class Actuator(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=25)
     carriage_mass = models.FloatField()
     no_load_torque = models.FloatField()

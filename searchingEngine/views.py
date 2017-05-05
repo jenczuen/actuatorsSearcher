@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from actuatorsSearcher.settings import STATIC_URL
 from searchingEngine.models import Actuator, InputData, ActuatorType, ActuatorOrientation, MotionProfileType
 from searchingEngine.calculations.Calculator import Calculator
+from searchingEngine.code_generation.CodeGenerator import CodeGenerator
 
 
 def index(request):
@@ -32,7 +33,7 @@ def index(request):
     return render(request, 'searchingEngine/index.html', context)
 
 
-def filter_actuators(request):
+def get_actuators(request):
     input_data = get_validated_model_from_request(request)
     actuators = Actuator.objects.all()
 
@@ -41,20 +42,9 @@ def filter_actuators(request):
     get_all_actuators_for_display(results)
 
     result = {
-        # 'actuators': Actuator.get_all_actuators_for_display()
         'actuators': get_all_actuators_for_display(results)
     }
     return JsonResponse(result)
-
-def get_all_actuators_for_display(calculations_result):
-    result = []
-    for actuator, calculation_result in calculations_result.items():
-        logging.warning(actuator.name)
-        # logging.warning(calculation_result)
-        result.append({
-            'name': actuator.name
-        })
-    return result
 
 
 def get_validated_model_from_request(request):
@@ -65,3 +55,21 @@ def get_validated_model_from_request(request):
     input_data.log()
     return input_data
 
+
+def get_all_actuators_for_display(calculations_result):
+    result = []
+    for actuator, calculation_result in calculations_result.items():
+        logging.warning(actuator.name)
+        result.append({
+            'name': actuator.name,
+            'id': actuator.id
+        })
+    logging.warning(result)
+    return result
+
+
+def get_codes(request):
+    logging.warning("got request %s to get_codes" % request.GET)
+    result = CodeGenerator.generate_codes_for_request(request.GET)
+    logging.warning("get_codes calculated result %s " % result)
+    return JsonResponse(result)

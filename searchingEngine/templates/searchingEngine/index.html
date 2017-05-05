@@ -7,7 +7,7 @@
     <body>
         <h2>Wyszukiwanie to nasza pasja</h2>
 
-        <form id="actuator_model_form">
+        <form id="input_data_form">
             <h3>Wybierz typ napedu</h3>
             {% for actuator_type_key, actuator_type in actuator_types.items %}
                 <input type="radio" name="actuator_type" value="{{ actuator_type_key }}" checked>
@@ -74,21 +74,14 @@
                 </div>
             </div>
 
-            <input type="submit" id="actuator_model_button" value="actuator_model_button"
-                   name="actuator_model_button">Filtruj napedy</button>
+            <input type="submit" id="submit_input_data" value="Filtruj napedy">
         </form>
 
-        <h3>Napędy spełniające kryteria:</h3>
-        <div id="actuators_list_div">
-            {% if actuators %}
-                <ul>
-                {% for a in actuators %}
-                    <li><a href="/searchingEngine/{{ a.id }}/">{{ a.name }}</a></li>
-                {% endfor %}
-                </ul>
-            {% else %}
-                <p>Brak napedow spelniajacych kryteria.</p>
-            {% endif %}
-        </div>
+        <form id="actuators_list_form">
+            <h3>Napędy spełniające kryteria:</h3>
+            <div id="actuators_list_div"></div>
+            <input type="submit" id="actuators_list_button" value="Generuj kody dla wybranych napedow"
+                   style='display:none' >
+        </form>
     </body>
 </html>
