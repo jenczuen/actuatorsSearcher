@@ -1,0 +1,21 @@
+================ BAZA DANYCH ==================
+
+1. Analiza bazy
+	laczenie sie z baza danyc:
+	$ sqlite3
+	sqlite> .open db.sqlite3
+
+	sqlite> select id,name,carriage_mass from searchingEngine_actuator;
+
+	# describe
+	sqlite> .schema searchingEngine_actuator
+
+	# ustawianie naglowkow:
+	sqlite> .mode column
+	sqlite> .headers on
+
+2. Wczytywanie bazy z csv
+
+	Skrypt do komendy jest w searchingEngine/management/commands/load_actuators.py
+	Argumentem jest sciezka do pliku o nazwie actuators_fixtures.csv
+	$ python3 manage.py load_actuators "/home/jedrek/python/misza/actuatorsSearcher/searchingEngine/fixtures/actuators_fixtures.csv"

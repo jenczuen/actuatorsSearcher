@@ -1,3 +1,20 @@
+Taski na 4/5 maja 2017
+
+3. Walidacja 2 stopnia dla poszczegolnych typow, w tej tabelce nie ma dla OSP, jest w dokumentacji
+
+3. Implementacja obliczeń dla wszystkich typów (teraz mamy tlko carriage)
+
+
+
+
+
+
+
+
+
+
+
+
 Taski na 2 kwietnia 2017:
 1. Widok glowny ze wszystkim opcjami do wyszukiwania zgodnie ze specyfikacja - done
 1.1 przygotowanie jsa do pokazywania/chowania parametrow dla profilow ruchu - done
@@ -13,12 +30,3 @@ Taski na 2 kwietnia 2017:
 
 6. deploy na heroku czy gdzies
 7. skrypt populujacy na heroku czy cos
-
-111. dodanie unitowjojojojoj
-
-Backlog
-1. przygotowac widok do wybierania z lista aktuatorow statycznie
-2. przygotowac akcje + typy do kazdego kroku
-3. wpisac logike akcji
-4. dodac jsy do blokowania strony podczas wypelniania
-5. przygotowac strony z grafika

@@ -55,3 +55,7 @@ class Validator:
         if self.actuator.max_acc < value:
             self.log_list.append("[ERROR MAX ACC] max_acc = %s, a = %s"
                                  % (self.actuator.max_acc, value))
+
+    def validate_sum_of_combined_load(self, value):
+        if 1 < value:
+            self.log_list.append("[ERROR SUM OF COMBINED LOADS] %s > 1" % value)
