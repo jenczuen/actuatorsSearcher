@@ -2,29 +2,30 @@ import logging
 from django.shortcuts import render
 from django.http import JsonResponse
 from actuatorsSearcher.settings import STATIC_URL
-from .models import Actuator
-from .models import InputData
+from searchingEngine.models import Actuator, InputData, ActuatorType, ActuatorOrientation, MotionProfileType
 
 
 def index(request):
     logging.basicConfig()
+
     context = {
         'static_url': STATIC_URL,
-        'actuator_types': [
-            'carriage',
-            'piston_rod',
-            'pion'
-        ],
-        'actuator_orientations': [
-            'horizontal_top',
-            'horizontal_side',
-            'vertical'
-        ],
-        'motion_profiles': [
-            'acc_and_speed',
-            'total_time',
-            'total_and_acc_time'
-        ],
+        'actuator_types': {
+            ActuatorType.carriage.name: 'Carriage',
+            ActuatorType.piston_rod.name: 'Piston rod',
+            ActuatorType.pion.name: 'PION'
+        },
+        'actuator_orientations': {
+            ActuatorOrientation.horizontal_top.name: 'Horizontal top',
+            ActuatorOrientation.horizontal_side.name: 'Horizontal side',
+            ActuatorOrientation.horizontal_bottom.name: 'Horizontal side',
+            ActuatorOrientation.vertical.name: 'Vertical'
+        },
+        'motion_profiles': {
+            MotionProfileType.acc_and_speed.name: 'acc_and_speed',
+            MotionProfileType.total_time.name: 'total_time',
+            MotionProfileType.total_and_acc_time.name: 'total_and_acc_time'
+        },
         'actuators': Actuator.objects.all()
     }
     return render(request, 'searchingEngine/index.html', context)

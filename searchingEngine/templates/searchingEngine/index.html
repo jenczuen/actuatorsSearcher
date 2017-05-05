@@ -9,14 +9,14 @@
 
         <form id="actuator_model_form">
             <h3>Wybierz typ napedu</h3>
-            {% for actuator_type in actuator_types %}
-                <input type="radio" name="actuator_type" value="{{ actuator_type }}" checked>
+            {% for actuator_type_key, actuator_type in actuator_types.items %}
+                <input type="radio" name="actuator_type" value="{{ actuator_type_key }}" checked>
                 {{ actuator_type }}<br>
             {% endfor %}
 
             <h3>Wybierz orientację</h3>
-            {% for actuator_orientation in actuator_orientations %}
-                <input type="radio" name="actuator_orientation" value="{{ actuator_orientation }}" checked>
+            {% for actuator_orientation_key, actuator_orientation in actuator_orientations.items %}
+                <input type="radio" name="actuator_orientation" value="{{ actuator_orientation_key }}" checked>
                 {{ actuator_orientation }}<br>
             {% endfor %}
 
@@ -49,8 +49,8 @@
                        id="distance_of_mass_z" maxlength="4" size="1"> mm <br>
 
             <h3>Wybierz profil ruchu</h3>
-            {% for motion_profile in motion_profiles %}
-                <input type="radio" name="motion_profile" value="{{ motion_profile }}" checked>
+            {% for motion_profile_key, motion_profile in motion_profiles.items %}
+                <input type="radio" name="motion_profile" value="{{ motion_profile_key }}" checked>
                 {{ motion_profile }}<br>
             {% endfor %}
 
