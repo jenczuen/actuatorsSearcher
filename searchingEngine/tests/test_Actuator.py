@@ -23,7 +23,7 @@ class ActuatorTests(TestCase):
         scenario = TestsScenarios.items[scenario_name]
         print(scenario.get_desc())
 
-        Calculator.calculate_all(
+        Calculator.filter_matching_actuators(
             actuators=Actuator.objects.all(),
             input_data=scenario.input_data,
             additional_validation_callback=lambda a, r: self.additional_validation(a, r, scenario))

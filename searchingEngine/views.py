@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from actuatorsSearcher.settings import STATIC_URL
 from searchingEngine.models import Actuator, InputData, ActuatorType, ActuatorOrientation, MotionProfileType
+from searchingEngine.calculations.Calculator import Calculator
 
 
 def index(request):
@@ -26,22 +27,41 @@ def index(request):
             MotionProfileType.total_time.name: 'total_time',
             MotionProfileType.total_and_acc_time.name: 'total_and_acc_time'
         },
-        'actuators': Actuator.objects.all()
+        'actuators': []
     }
     return render(request, 'searchingEngine/index.html', context)
 
 
 def filter_actuators(request):
-    get_validated_model_from_request(request)
+    input_data = get_validated_model_from_request(request)
+    actuators = Actuator.objects.all()
+
+    logging.warning("Got input data and actuators list, going to filter actuators")
+    results = Calculator.filter_matching_actuators(actuators, input_data)
+    get_all_actuators_for_display(results)
+
     result = {
-        'actuators': Actuator.get_all_actuators_for_display()
+        # 'actuators': Actuator.get_all_actuators_for_display()
+        'actuators': get_all_actuators_for_display(results)
     }
     return JsonResponse(result)
 
+def get_all_actuators_for_display(calculations_result):
+    result = []
+    for actuator, calculation_result in calculations_result.items():
+        logging.warning(actuator.name)
+        # logging.warning(calculation_result)
+        result.append({
+            'name': actuator.name
+        })
+    return result
+
 
 def get_validated_model_from_request(request):
+    logging.warning("get_validated_model_from_request with request %s" % request)
     if not request.GET:
         logging.error("no model provided")
     input_data = InputData.from_request_data(request.GET)
     input_data.log()
+    return input_data
 

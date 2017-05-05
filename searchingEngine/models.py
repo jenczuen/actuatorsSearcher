@@ -131,7 +131,7 @@ class MotionProfile_TotalTime:
     @staticmethod
     def from_request_data(request_data):
         return MotionProfile_TotalTime(
-            t_total=Helper.parse_int(request_data['motion_profile_params[t_total]'])
+            t_total=Helper.parse_float(request_data['motion_profile_params[t_total]'])
         )
 
     def log(self):
@@ -148,8 +148,8 @@ class MotionProfile_TotalAndAccTime:
     @staticmethod
     def from_request_data(request_data):
         return MotionProfile_TotalAndAccTime(
-            t_total=Helper.parse_int(request_data['motion_profile_params[t_total]']),
-            t_acc_dcc=Helper.parse_int(request_data['motion_profile_params[t_acc_dcc]'])
+            t_total=Helper.parse_float(request_data['motion_profile_params[t_total]']),
+            t_acc_dcc=Helper.parse_float(request_data['motion_profile_params[t_acc_dcc]'])
         )
 
     def log(self):
