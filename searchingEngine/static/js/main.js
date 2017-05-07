@@ -64,7 +64,7 @@ var updateActuators = function(data) {
 
 	var list_root = $('<ul/>').appendTo(list_div);
 	$(data.actuators).each(function(key) {
-	    console.log(data.actuators[key])
+//	    console.log(data.actuators[key])
 		var li = $('<li/>').appendTo(list_root);
 		var a = $('<div/>').text(data.actuators[key].name).appendTo(li);
 		var checkbox = $('<input />', {
@@ -106,7 +106,7 @@ var fetchCheckedActuators = function() {
         data['checked_actuators_ids'].push(id)
     })
 
-    console.log(data)
+//    console.log(data)
     return data
 }
 
@@ -129,11 +129,27 @@ var sendOrder = function(event) {
 }
 
 var getOrderData = function(){
-    return {1:2}
+    orderData = {}
+    orderData.email = $("#order_form_email").val(),
+    orderData.items = []
+
+    $( ".codes_list_entry" ).each(function( index ) {
+        item = {}
+        item.name = $(this).find(".actuator_name").text()
+        item.size = $(this).find(".actuator_size").text()
+        item.type = $(this).find(".actuator_type").text()
+        item.carriage = $(this).find(".actuator_carriage").text()
+        item.drive_shaft = $(this).find(".actuator_drive_shaft_selector").val()
+        item.mounting_kit = $(this).find(".actuator_mounting_kit_selector").val()
+        orderData.items.push(item)
+    });
+
+    console.log(orderData)
+    return orderData
 }
 
 var onOrderSent = function(data) {
-    clearAll()
+//    clearAll()
     alert("Wyslano zapytanie!")
 }
 

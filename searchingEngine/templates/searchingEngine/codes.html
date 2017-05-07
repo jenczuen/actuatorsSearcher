@@ -1,32 +1,33 @@
 <div>
 
     Kody:<br>
-    <ul>
+    <ul id="codes_list">
     {% for code_object_wrapper in actuator_code_wrappers %}
-        <li>
+        <li class="codes_list_entry">
+            <div id={{ code_object_wrapper.name }}>
             <table border="1">
                 <col width="130">
                 <col width="200">
                 <tr>
                     <th>Name</th>
-                    <th>{{ code_object_wrapper.name }}</th>
+                    <th class="actuator_name">{{ code_object_wrapper.name }}</th>
                 </tr>
                 <tr>
                     <th>Size of actuator</th>
-                    <th>{{ code_object_wrapper.code_data.size }}</th>
+                    <th class="actuator_size">{{ code_object_wrapper.code_data.size }}</th>
                 </tr>
                 <tr>
                     <th>Type of actuator</th>
-                    <th>{{ code_object_wrapper.code_data.type_of_actuator }}</th>
+                    <th class="actuator_type" >{{ code_object_wrapper.code_data.type_of_actuator }}</th>
                 </tr>
                 <tr>
                     <th>Carriage</th>
-                    <th>{{ code_object_wrapper.code_data.carriage }}</th>
+                    <th class="actuator_carriage" >{{ code_object_wrapper.code_data.carriage }}</th>
                 </tr>
                 <tr>
                     <th>Drive shaft / Motor Mounting Position</th>
                     <th>
-                        <select name="drive_shaft_options">
+                        <select name="drive_shaft_options" class="actuator_drive_shaft_selector">
                              {% for drive_shaft_option in drive_shaft_options %}
                                 <option value={{forloop.counter}}>{{drive_shaft_option}}</option>
                              {% endfor %}
@@ -40,7 +41,7 @@
                 <tr>
                     <th>Mounting kit for motor and gear</th>
                     <th>
-                        <select name="mounting_kit_options">
+                        <select name="mounting_kit_options" class="actuator_mounting_kit_selector">
                              {% for key, mounting_kit_option in code_object_wrapper.mounting_kit_options.items %}
                                 <option value={{key}}>{{mounting_kit_option}}</option>
                              {% endfor %}
@@ -88,12 +89,13 @@
                     </th>
                 </tr>
             </table>
+            </div>
         </li>
     {% endfor %}
     </ul>
     <form id="order_form">
         Podaj maila: <input type="text" name="email"
-                       id="email" maxlength="20" size="20"><br>
+                       id="order_form_email" maxlength="20" size="20"><br>
         <input type="submit" id="submit_order_form" value="Wyslij zapytanie">
     </form>
 </div>
