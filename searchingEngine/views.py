@@ -72,10 +72,10 @@ def get_codes(request):
     logging.warning("got request %s to get_codes" % request.GET)
     context = CodeGenerator.generate_codes_for_request(request.GET)
     logging.warning("get_codes calculated result %s " % context)
-
-    for a in context["actuator_code_wrappers"]:
-        logging.warning(a)
-
-
     return render(request, 'searchingEngine/codes.html', context)
-    # return JsonResponse(result)
+
+
+def send_order(request):
+    logging.warning("got request %s to send_order" % request.GET)
+    result = {}
+    return JsonResponse(result)

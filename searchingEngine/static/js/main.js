@@ -111,8 +111,36 @@ var fetchCheckedActuators = function() {
 }
 
 var setCodes = function(data) {
-    console.log(data)
     $('#actuators_codes_div').html(data);
+    $("#order_form").submit(sendOrder)
+}
+
+var sendOrder = function(event) {
+	event.preventDefault();
+	console.log("sendOrder called")
+	url = "/searchingEngine/ajax/send_order/"
+	console.log("request to " + url)
+	$.ajax({
+		url: url,
+		data: getOrderData(),
+		dataType: 'json',
+		success: onOrderSent
+	});
+}
+
+var getOrderData = function(){
+    return {1:2}
+}
+
+var onOrderSent = function(data) {
+    clearAll()
+    alert("Wyslano zapytanie!")
+}
+
+var clearAll = function(){
+    $("#actuators_list_button").hide()
+    $('#actuators_codes_div').html('')
+    $("#actuators_list_div").html('')
 }
 
 var getParamsDivForMotionProfile = function(motion_profile) {
