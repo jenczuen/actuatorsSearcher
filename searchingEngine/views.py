@@ -70,6 +70,12 @@ def get_all_actuators_for_display(calculations_result):
 
 def get_codes(request):
     logging.warning("got request %s to get_codes" % request.GET)
-    result = CodeGenerator.generate_codes_for_request(request.GET)
-    logging.warning("get_codes calculated result %s " % result)
-    return JsonResponse(result)
+    context = CodeGenerator.generate_codes_for_request(request.GET)
+    logging.warning("get_codes calculated result %s " % context)
+
+    for a in context["actuator_code_wrappers"]:
+        logging.warning(a)
+
+
+    return render(request, 'searchingEngine/codes.html', context)
+    # return JsonResponse(result)

@@ -87,7 +87,7 @@ var getCodesFormsForActuators = function(event) {
 	$.ajax({
 		url: url,
 		data: fetchCheckedActuators(),
-		dataType: 'json',
+		dataType: 'html',
 		success: setCodes
 	});
 }
@@ -112,6 +112,7 @@ var fetchCheckedActuators = function() {
 
 var setCodes = function(data) {
     console.log(data)
+    $('#actuators_codes_div').html(data);
 }
 
 var getParamsDivForMotionProfile = function(motion_profile) {

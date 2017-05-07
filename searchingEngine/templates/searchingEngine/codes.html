@@ -1,0 +1,99 @@
+<div>
+
+    Kody:<br>
+    <ul>
+    {% for code_object_wrapper in actuator_code_wrappers %}
+        <li>
+            <table border="1">
+                <col width="130">
+                <col width="200">
+                <tr>
+                    <th>Name</th>
+                    <th>{{ code_object_wrapper.name }}</th>
+                </tr>
+                <tr>
+                    <th>Size of actuator</th>
+                    <th>{{ code_object_wrapper.code_data.size }}</th>
+                </tr>
+                <tr>
+                    <th>Type of actuator</th>
+                    <th>{{ code_object_wrapper.code_data.type_of_actuator }}</th>
+                </tr>
+                <tr>
+                    <th>Carriage</th>
+                    <th>{{ code_object_wrapper.code_data.carriage }}</th>
+                </tr>
+                <tr>
+                    <th>Drive shaft / Motor Mounting Position</th>
+                    <th>
+                        <select name="drive_shaft_options">
+                             {% for drive_shaft_option in drive_shaft_options %}
+                                <option value={{forloop.counter}}>{{drive_shaft_option}}</option>
+                             {% endfor %}
+                        </select>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Gear mounting</th>
+                    <th>{{ code_object_wrapper.code_data.gear_mounting }}</th>
+                </tr>
+                <tr>
+                    <th>Mounting kit for motor and gear</th>
+                    <th>
+                        <select name="mounting_kit_options">
+                             {% for key, mounting_kit_option in code_object_wrapper.mounting_kit_options.items %}
+                                <option value={{key}}>{{mounting_kit_option}}</option>
+                             {% endfor %}
+                        </select>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Stroke</th>
+                    <th>{{ code_object_wrapper.code_data.stroke }}</th>
+                </tr>
+                <tr>
+                    <th>Niro</th>
+                    <th>{{ code_object_wrapper.code_data.niro }}</th>
+                </tr>
+                <tr>
+                    <th>External guide</th>
+                    <th>{{ code_object_wrapper.code_data.external_guide }}</th>
+                </tr>
+                <tr>
+                    <th>Guide position</th>
+                    <th>{{ code_object_wrapper.code_data.guide_position }}</th>
+                </tr>
+                <tr>
+                    <th>End cap mounting</th>
+                    <th>{{ code_object_wrapper.code_data.end_cap_mounting }}</th>
+                </tr>
+                <tr>
+                    <th>Profile mounting</th>
+                    <th>
+                        <select name="profile_mounting_options">
+                             {% for key, profile_mounting_option in profile_mounting_options.items %}
+                                <option value={{key}}>{{profile_mounting_option}}</option>
+                             {% endfor %}
+                        </select>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Magnetic sensors</th>
+                    <th>
+                        <select name="magnetic_sensors_option">
+                             {% for key, magnetic_sensors_option in magnetic_sensors_options.items %}
+                                <option value={{key}}>{{magnetic_sensors_option}}</option>
+                             {% endfor %}
+                        </select>
+                    </th>
+                </tr>
+            </table>
+        </li>
+    {% endfor %}
+    </ul>
+    <form id="order_form">
+        Podaj maila: <input type="text" name="email"
+                       id="email" maxlength="20" size="20"><br>
+        <input type="submit" id="submit_order_form" value="Wyslij zapytanie">
+    </form>
+</div>
