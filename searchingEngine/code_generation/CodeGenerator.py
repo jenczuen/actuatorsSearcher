@@ -2,7 +2,7 @@ import logging
 from searchingEngine.models import Actuator
 from searchingEngine.code_generation.CodeData import CodeData
 from searchingEngine.code_generation.Options import Options
-from searchingEngine.code_generation.ActuatorsToMotors import ActuatorsToMotors
+from searchingEngine.code_generation.MotorsMatcher import MotorsMatcher
 
 
 class CodeGenerator:
@@ -35,42 +35,12 @@ class CodeGenerator:
         code_data = CodeData()
         code_data.size = actuator_size
         code_data.stroke = stroke
-        code_data.mounting_kit = CodeGenerator.choose_mounting_kit(actuator.name)
+        code_data.mounting_kit = MotorsMatcher.choose_mounting_kit(actuator.name)
 
         return {
             "name": actuator.name,
             "code_data": code_data
         }
 
-    @staticmethod
-    def choose_mounting_kit(actuator_name):
-        options = ActuatorsToMotors.map[actuator_name]
-        motors_options, gears_options = CodeGenerator.split_options(options)
-        motor = CodeGenerator.find_motor(motors_options)
-        if motor is not None:
-            return motor
-        motor, gear = CodeGenerator.find_motor_with_gear(gears_options)
-        if motor is not None and gear is not None:
-            return motor + ", " + gear
-        return "pucha2"
-
-    @staticmethod
-    def split_options(options):
-        motors_options = []
-        gears_options = []
-        for option in options:
-            if isinstance(option, str):
-                gears_options.append(option)
-            elif isinstance(option, tuple):
-                motors_options.append(option)
-        return motors_options, gears_options
-
-    @staticmethod
-    def find_motor(motors_options):
-        return 0
-
-    @staticmethod
-    def find_motor_with_gear(gears_options):
-        return 0
 
 
