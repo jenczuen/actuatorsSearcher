@@ -40,13 +40,7 @@
                 </tr>
                 <tr>
                     <th>Mounting kit for motor and gear</th>
-                    <th>
-                        <select name="mounting_kit_options" class="actuator_mounting_kit_selector">
-                             {% for key, mounting_kit_option in code_object_wrapper.mounting_kit_options.items %}
-                                <option value={{key}}>{{mounting_kit_option}}</option>
-                             {% endfor %}
-                        </select>
-                    </th>
+                    <th>{{ code_object_wrapper.code_data.mounting_kit }}</th>
                 </tr>
                 <tr>
                     <th>Stroke</th>
