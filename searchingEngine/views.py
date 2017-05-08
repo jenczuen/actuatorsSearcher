@@ -20,7 +20,7 @@ def index(request):
         'actuator_orientations': {
             ActuatorOrientation.horizontal_top.name: 'Horizontal top',
             ActuatorOrientation.horizontal_side.name: 'Horizontal side',
-            ActuatorOrientation.horizontal_bottom.name: 'Horizontal side',
+            ActuatorOrientation.horizontal_bottom.name: 'Horizontal bottom',
             ActuatorOrientation.vertical.name: 'Vertical'
         },
         'motion_profiles': {
