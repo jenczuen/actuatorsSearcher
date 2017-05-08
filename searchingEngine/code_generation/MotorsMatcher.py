@@ -1,17 +1,19 @@
 import math
 from searchingEngine.code_generation.ActuatorsToMotors import ActuatorsToMotors
 from searchingEngine.code_generation.GearsToMotors import GearsToMotors
+from searchingEngine.code_generation.Motors import Motors
 
 
 class MotorsMatcher:
     @classmethod
     def choose_mounting_kit(cls, actuator_name, torque, speed, circumference_mm):
+        circumference = circumference_mm / 1000
         options = ActuatorsToMotors.map[actuator_name]
         motors_options, gears_options = cls.__split_options(options)
-        motor = cls.__find_motor(motors_options, torque, speed, circumference_mm / 1000)
+        motor = cls.__find_motor(motors_options, torque, speed, circumference)
         if motor is not None:
             return motor
-        motor, gear = cls__.find_motor_with_gear(gears_options)
+        motor, gear = cls.__find_motor_with_gear(gears_options, torque, speed, circumference)
         if motor is not None and gear is not None:
             return motor + ", " + gear
         return "pucha2"
@@ -30,9 +32,14 @@ class MotorsMatcher:
     @classmethod
     def __find_motor(cls, motors_options, torque, speed, circumference):
         for motor_option in motors_options:
-            if cls.__motor_torque_matches(motor_option[0], torque) and \
-                    cls.__motor_speed_matches(motor_option[1], speed, circumference):
-                return motor_option[0]
+            motor_code = motor_option[0]
+            for key, value in Motors.map.items():
+                if key[0] == motor_code:
+                    motor_max_torque = value[0]
+                    motor_max_rpm = value[1]
+                    if cls.__motor_torque_matches(motor_max_torque, torque) and \
+                            cls.__motor_speed_matches(motor_max_rpm, speed, circumference):
+                        return motor_max_torque
         return None
 
     @classmethod
@@ -45,11 +52,11 @@ class MotorsMatcher:
         return speed_rpm < motor_max_rpm
 
     @classmethod
-    def find_motor_with_gear(cls, gears_options, torque, speed, circumference):
+    def __find_motor_with_gear(cls, gears_options, torque, speed, circumference):
         for gear_option in gears_options:
             # sprawdzanie czy torque nie jest za duzy dla geara
             motors_for_gears = GearsToMotors.map[gear_option]
-            for ratio in []:
+            for ratio in [3, 5, 7, 10, 20]:
                 gear_torque = torque*ratio
                 # sprawdzanie czy gear_torque nie jest za duzy dla geara
                 gear_speed = speed/ratio

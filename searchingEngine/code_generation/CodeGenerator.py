@@ -23,19 +23,24 @@ class CodeGenerator:
             actuator = Actuator.objects.get(id=actuators_id)
             logging.warning(actuators_id)
             logging.warning(actuator)
-            result["actuator_code_wrappers"].append(CodeGenerator.generate_for_actuator(actuator, stroke))
+            result["actuator_code_wrappers"].append(CodeGenerator.generate_for_actuator(actuator, stroke, torque, speed))
         return result
 
 
     @staticmethod
-    def generate_for_actuator(actuator, stroke):
+    def generate_for_actuator(actuator, stroke, torque, speed):
 
         actuator_size = 25
 
         code_data = CodeData()
         code_data.size = actuator_size
         code_data.stroke = stroke
-        code_data.mounting_kit = MotorsMatcher.choose_mounting_kit(actuator.name)
+        code_data.mounting_kit = MotorsMatcher.choose_mounting_kit(
+            actuator_name=actuator.name,
+            torque=torque,
+            speed=speed,
+            circumference_mm=actuator.pulley_circumference_mm
+        )
 
         return {
             "name": actuator.name,
