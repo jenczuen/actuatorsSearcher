@@ -52,12 +52,18 @@ class CodeGenerator:
         motor, gear = CodeGenerator.find_motor_with_gear(gears_options)
         if motor is not None and gear is not None:
             return motor + ", " + gear
-
         return "pucha2"
 
     @staticmethod
     def split_options(options):
-        return 0, 0
+        motors_options = []
+        gears_options = []
+        for option in options:
+            if isinstance(option, str):
+                gears_options.append(option)
+            elif isinstance(option, tuple):
+                motors_options.append(option)
+        return motors_options, gears_options
 
     @staticmethod
     def find_motor(motors_options):
