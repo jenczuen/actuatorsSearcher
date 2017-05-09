@@ -18,28 +18,34 @@ class CodeGenerator:
         }
         logging.warning("Takie o dostalismy %s" % result)
 
+        calculated_torque = request['calculated_data[torque]']
+        calculated_speed = request['calculated_data[speed]']
+        logging.warning("calculated_torque = %s, calculated_speed = %s"
+                        % (calculated_torque, calculated_speed))
+
         actuators_ids = request.getlist("checked_actuators_ids[]")
         for actuators_id in actuators_ids:
             actuator = Actuator.objects.get(id=actuators_id)
             logging.warning(actuators_id)
             logging.warning(actuator)
-            result["actuator_code_wrappers"].append(CodeGenerator.generate_for_actuator(actuator, stroke, torque, speed))
+            result["actuator_code_wrappers"].append(CodeGenerator.generate_for_actuator(actuator, stroke, calculated_torque, calculated_speed))
         return result
 
 
     @staticmethod
-    def generate_for_actuator(actuator, stroke, torque, speed):
-
+    def generate_for_actuator(actuator, stroke, calculated_torque, calculated_speed):
+        # ------------ !!!!!111one11
         actuator_size = 25
+        # ------------ !!!!!111one11
 
         code_data = CodeData()
         code_data.size = actuator_size
         code_data.stroke = stroke
         code_data.mounting_kit = MotorsMatcher.choose_mounting_kit(
             actuator_name=actuator.name,
-            torque=torque,
-            speed=speed,
-            circumference_mm=actuator.pulley_circumference_mm
+            torque=calculated_torque,
+            speed=calculated_speed,
+            circumference_mm=actuator.pulley_circumference_mm,
         )
 
         return {
