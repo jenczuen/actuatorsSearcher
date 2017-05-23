@@ -1,6 +1,7 @@
 class CalculationResult:
-    def __init__(self, torque, sum_of_combined_load, torque_load, errors=None, calculation_steps=None):
+    def __init__(self, torque, speed, sum_of_combined_load, torque_load, errors=None, calculation_steps=None):
         self.torque = torque
+        self.speed = speed
         self.sum_of_combined_load = sum_of_combined_load
         self.torque_load = torque_load
         self.errors = errors

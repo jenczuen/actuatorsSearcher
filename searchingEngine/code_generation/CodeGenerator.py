@@ -9,6 +9,9 @@ class CodeGenerator:
 
     @staticmethod
     def generate_codes_for_request(request):
+        myDict = request.dict()
+        logging.warning("myDict = %s" % myDict)
+
         stroke = request['input_data[step]']
         result = {
             "actuator_code_wrappers": [],

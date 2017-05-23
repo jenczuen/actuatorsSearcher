@@ -34,44 +34,29 @@ def index(request):
 
 
 def get_actuators(request):
-    input_data = get_validated_model_from_request(request)
+    input_data = __get_validated_model_from_request(request)
     actuators = Actuator.objects.all()
 
     logging.warning("Got input data and actuators list, going to filter actuators")
-    results = Calculator.filter_matching_actuators(actuators, input_data)
-    get_all_actuators_for_display(results)
-
-    result = {
-        'actuators': get_all_actuators_for_display(results)
+    context = {
+        'matching_actuators': Calculator.filter_matching_actuators(actuators, input_data)
     }
-    return JsonResponse(result)
+    return render(request, 'searchingEngine/matching_actuators.html', context)
 
 
-def get_validated_model_from_request(request):
+def __get_validated_model_from_request(request):
     logging.warning("get_validated_model_from_request with request %s" % request)
     if not request.GET:
         logging.error("no model provided")
     input_data = InputData.from_request_data(request.GET)
-    input_data.log()
+    # input_data.log()
     return input_data
-
-
-def get_all_actuators_for_display(calculations_result):
-    result = []
-    for actuator, calculation_result in calculations_result.items():
-        logging.warning(actuator.name)
-        result.append({
-            'name': actuator.name,
-            'id': actuator.id
-        })
-    logging.warning(result)
-    return result
 
 
 def get_codes(request):
     logging.warning("got request %s to get_codes" % request.GET)
     context = CodeGenerator.generate_codes_for_request(request.GET)
-    logging.warning("get_codes calculated result %s " % context)
+    # logging.warning("get_codes calculated result %s " % context)
     return render(request, 'searchingEngine/codes.html', context)
 
 

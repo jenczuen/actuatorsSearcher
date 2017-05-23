@@ -37,7 +37,7 @@ var getActuatorsForInputData = function(event) {
 	$.ajax({
 		url: url,
 		data: fetchInputData(),
-		dataType: 'json',
+		dataType: 'html',
 		success: updateActuators
 	});
 }
@@ -59,23 +59,8 @@ var fetchInputData = function() {
 }
 
 var updateActuators = function(data) {
-	var list_div = $("#actuators_list_div")
-	list_div.html('')
-
-	var list_root = $('<ul/>').appendTo(list_div);
-	$(data.actuators).each(function(key) {
-//	    console.log(data.actuators[key])
-		var li = $('<li/>').appendTo(list_root);
-		var a = $('<div/>').text(data.actuators[key].name).appendTo(li);
-		var checkbox = $('<input />', {
-		    type: 'checkbox',
-		    id: 'checkbox_interested_' + data.actuators[key].id,
-		    value: data.actuators[key].id }).appendTo(li);
-		var label = $('<label />', {
-		    'for': 'checkbox_interested_' + data.actuators[key].id,
-		    text: 'Jestem zainteresowany' }).appendTo(li);
-	})
-
+    console.log("received matching actuators")
+    $('#actuators_list_div').html(data);
 	$("#actuators_list_button").show()
 }
 
@@ -86,28 +71,37 @@ var getCodesFormsForActuators = function(event) {
 	console.log("request to " + url)
 	$.ajax({
 		url: url,
-		data: fetchCheckedActuators(),
+		data: getDataForFetchingCodes(),
 		dataType: 'html',
 		success: setCodes
 	});
 }
 
+var getDataForFetchingCodes = function() {
+    var result = fetchCheckedActuators()
+    result.calculated_data
+    return result
+}
+
 var fetchCheckedActuators = function() {
     console.log("fetchCheckedActuators called")
 
-    data = {
+    all_actuators_data = {
         'input_data': fetchInputData(),
-        'checked_actuators_ids': []
+        'checked_actuators_data': {}
     }
 
     $("#actuators_list_div :checkbox:checked").each(function(){
         var raw_id = $(this).attr('id')
         var id = parseInt(raw_id.split("_")[2])
-        data['checked_actuators_ids'].push(id)
+        all_actuators_data['checked_actuators_data'][id] = {
+            "torque": parseFloat($(this).siblings('input[name=torque]').val()),
+            "speed": parseFloat($(this).siblings('input[name=speed]').val())
+        }
     })
 
-//    console.log(data)
-    return data
+    console.log(all_actuators_data)
+    return all_actuators_data
 }
 
 var setCodes = function(data) {

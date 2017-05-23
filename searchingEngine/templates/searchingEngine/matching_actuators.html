@@ -1,0 +1,11 @@
+<ul>
+    {% for actuator, calculation_result in matching_actuators.items %}
+    <li>
+        {{ actuator.name }}
+        <label for="checkbox_interested_{{ actuator.id }}" >: jestem zainteresowany</label>
+        <input type="checkbox" id="checkbox_interested_{{ actuator.id }}" value="{{ actuator.id }}">
+        <input type="hidden" name="torque" value="{{ calculation_result.torque }}">
+        <input type="hidden" name="speed" value="{{ calculation_result.speed }}">
+    </li>
+    {% endfor %}
+</ul>

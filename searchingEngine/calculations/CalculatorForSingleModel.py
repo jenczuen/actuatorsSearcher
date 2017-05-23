@@ -78,6 +78,7 @@ class CalculatorForSingleModel:
 
         return CalculationResult(
             torque=torque,
+            speed=V_max,
             sum_of_combined_load=self._calculate_sum_of_combined_load(0, 0, 0, M_y, M_z),
             torque_load=0,
             errors=self.validator.log_list,
